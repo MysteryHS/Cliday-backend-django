@@ -52,6 +52,8 @@ REST_FRAMEWORK = {
     ],
 }
 
+CSRF_TRUSTED_ORIGINS = ['https://murmuring-fjord-44933.herokuapp.com']
+
 AUTH_USER_MODEL = 'api.Account'
 AUTH_PROFILE_MODULE = 'api.Account'
 
