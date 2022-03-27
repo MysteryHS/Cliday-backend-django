@@ -3,7 +3,7 @@ from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework.serializers import ModelSerializer
 from rest_framework import serializers
 from .models import Account, Choice, Question, Category, Answer
-from rest_framework.validators import UniqueValidator
+from rest_framework.validators import UniqueTogetherValidator, UniqueValidator
 from django.contrib.auth.password_validation import validate_password
 
 
@@ -57,16 +57,17 @@ class ChoiceCompleteSerializer(ModelSerializer):
         fields = '__all__'
         
 class RegisterSerializer(ModelSerializer):
-    email = serializers.EmailField(
-        required=True,
-        validators=[UniqueValidator(queryset=Account.objects.all())]
-    )
     
     password = serializers.CharField(write_only=True, required=True, validators=[validate_password])
-    
     class Meta:
-        model: Account
-        fields = ('username', 'password', 'email')
+        model = Account
+        fields = ['username', 'password', 'email']
+        validators = [
+            UniqueTogetherValidator(
+                queryset=Account.objects.all(),
+                fields=['username', 'email']
+            )
+        ]
         
     def create(self, validated_data):
         

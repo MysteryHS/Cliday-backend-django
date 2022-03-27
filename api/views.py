@@ -2,7 +2,7 @@ import random
 from rest_framework.decorators import api_view
 from rest_framework.views import APIView
 from rest_framework import authentication
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework import status
 from rest_framework import generics
 
@@ -97,3 +97,4 @@ class GetRandomQuestions(APIView):
 class RegisterView(generics.CreateAPIView):
     queryset = Account.objects.all()
     serializer_class = RegisterSerializer
+    permission_classes = [AllowAny]
