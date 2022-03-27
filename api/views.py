@@ -4,8 +4,9 @@ from rest_framework.views import APIView
 from rest_framework import authentication
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
+from rest_framework import generics
 
-from api.serializers import AnswerSerializer, ChoiceCompleteSerializer, ChoiceSerializer, QuestionSerializer
+from api.serializers import AnswerSerializer, ChoiceCompleteSerializer, ChoiceSerializer, QuestionSerializer, RegisterSerializer
 from .models import Account, Answer, Choice, Question
 from rest_framework.response import Response
 from rest_framework_simplejwt.authentication import JWTAuthentication
@@ -14,7 +15,6 @@ JWT_authenticator = JWTAuthentication()
 def get_user(request):
     response = JWT_authenticator.authenticate(request)
     if response is not None:
-        # unpacking
         user , token = response
         return user
     return None
@@ -93,3 +93,7 @@ class GetRandomQuestions(APIView):
                 answersQS = Answer.objects.filter(question_id=question.id)
                 answers = AnswerSerializer(answersQS, many=True)
             return Response(serializer.data)
+
+class RegisterView(generics.CreateAPIView):
+    queryset = Account.objects.all()
+    serializer_class = RegisterSerializer

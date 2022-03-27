@@ -15,6 +15,7 @@ urlpatterns = [
     path('token/', CustomTokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('token/verify/', TokenVerifyView.as_view(), name='token_verify'),
+    path('register/', views.RegisterView.as_view(), name='auth_register'),
     path('users/', views.ListUsers.as_view()),
     path('get_questions_of_the_day/', views.GetQuestionsOfTheDay.as_view()),
     path('answer_question/', views.AnswerQuestion.as_view()),

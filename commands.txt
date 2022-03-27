@@ -1,0 +1,4 @@
+pour push le projet faire les commandes suivantes :
+git add .
+git commit -m "message du commit"
+git push heroku master

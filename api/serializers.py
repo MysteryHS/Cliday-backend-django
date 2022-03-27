@@ -1,7 +1,10 @@
+from wsgiref.validate import validator
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework.serializers import ModelSerializer
 from rest_framework import serializers
-from .models import Choice, Question, Category, Answer
+from .models import Account, Choice, Question, Category, Answer
+from rest_framework.validators import UniqueValidator
+from django.contrib.auth.password_validation import validate_password
 
 
 class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
@@ -52,3 +55,27 @@ class ChoiceCompleteSerializer(ModelSerializer):
     class Meta:
         model = Choice
         fields = '__all__'
+        
+class RegisterSerializer(ModelSerializer):
+    email = serializers.EmailField(
+        required=True,
+        validators=[UniqueValidator(queryset=Account.objects.all())]
+    )
+    
+    password = serializers.CharField(write_only=True, required=True, validators=[validate_password])
+    
+    class Meta:
+        model: Account
+        fields = ('username', 'password', 'email')
+        
+    def create(self, validated_data):
+        
+        user = Account.objects.create(
+            username=validated_data['username'],
+            email=validated_data['email']
+        )
+
+        user.set_password(validated_data['password'])
+        user.save()
+
+        return user
