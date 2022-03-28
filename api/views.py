@@ -42,7 +42,7 @@ class ListUsers(APIView):
 class GetQuestionsOfTheDay(APIView):
     
     def get(self, request, format=None):
-        questions = Question.objects.order_by('-date_selected')[:10]
+        questions = Question.objects.order_by('-date_selected')[:5]
         serializer = QuestionSerializer(questions, many=True)
         for question in questions:
             answersQS = Answer.objects.filter(question_id=question.id)
