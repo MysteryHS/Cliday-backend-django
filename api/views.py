@@ -45,7 +45,7 @@ class GetQuestionsOfTheDay(APIView):
         questions = Question.objects.order_by('-date_selected')[:5]
         serializer = QuestionSerializer(questions, many=True)
         for question in questions:
-            answersQS = Answer.objects.filter(question_id=question.id)
+            answersQS = Answer.objects.filter(question_id=question.id).order_by('?')
             answers = AnswerSerializer(answersQS, many=True)
         return Response(serializer.data)
     
