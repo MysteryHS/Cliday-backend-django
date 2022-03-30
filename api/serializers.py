@@ -46,10 +46,6 @@ class ChoiceSerializer(ModelSerializer):
         model = Choice
         fields = ['is_correct', 'account', 'question']
         
-        extra_kwargs = {
-            'question': {'required': True},
-        }
-
 class ChoiceCompleteSerializer(ModelSerializer):
     
     class Meta:
