@@ -51,7 +51,7 @@ class ChoiceSerializer(ModelSerializer):
         }
 
 class ChoiceCompleteSerializer(ModelSerializer):
-    category = serializers.CharField('get_category')
+    category = serializers.SerializerMethodField('get_category')
     class Meta:
         model = Choice
         fields = '__all__'
