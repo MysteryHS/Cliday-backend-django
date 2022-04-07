@@ -2,3 +2,8 @@ pour push le projet faire les commandes suivantes :
 git add .
 git commit -m "message du commit"
 git push heroku master
+
+Pour editer la bdd :
+
+PATH=%PATH%;C:\Program Files\PostgreSQL\14\bin
+heroku pg:psql

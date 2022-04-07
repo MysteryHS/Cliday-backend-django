@@ -34,11 +34,11 @@ class QuestionSerializer(ModelSerializer):
         fields = ['statement', 'id', 'answers']
     
     def create(self, validated_data):
-        tracks_data = validated_data.pop('answers') #not ok
-        album = Answer.objects.create(**validated_data)
-        for track_data in tracks_data:
-            Answer.objects.create(album=album, **track_data)
-        return album
+        answers_data = validated_data.pop('answers')
+        answer = Answer.objects.create(**validated_data)
+        for answer_data in answers_data:
+            Answer.objects.create(answer=answer, **answer_data)
+        return answer
 
 class ChoiceSerializer(ModelSerializer):
     
@@ -51,10 +51,13 @@ class ChoiceSerializer(ModelSerializer):
         }
 
 class ChoiceCompleteSerializer(ModelSerializer):
-    
+    category = serializers.CharField('get_category')
     class Meta:
         model = Choice
         fields = '__all__'
+        
+    def get_category(self, choice):
+        return choice.question.category.text
         
 class RegisterSerializer(ModelSerializer):
     
