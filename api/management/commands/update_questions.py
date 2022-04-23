@@ -6,6 +6,6 @@ class Command(BaseCommand):
     help = "Django Daily Job"
 
     def handle(self, *args, **options):
-        Question.objects.order_by('-date_selected')[:5].update(date_selected=timezone.now()) 
-        #default timezone is utc in heroku
+        inner_q = Question.objects.order_by('-date_selected').values('pk')[:5]
+        Question.objects.filter(pk__in=inner_q).update(date_selected=timezone.now())
         
