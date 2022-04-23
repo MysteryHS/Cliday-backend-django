@@ -1,9 +1,9 @@
-from django_extensions.management.jobs import DailyJob
+from django.core.management.base import BaseCommand
 from ...models import Question
 from django.utils import timezone
 
-class Job(DailyJob):
+class Job(BaseCommand):
     help = "Django Daily Job"
 
-    def execute(self):
-        Question.objects.order_by('-date_selected')[:10].update(date_selected=timezone.now())
+    def handle(self):
+        Question.objects.order_by('-date_selected')[:5].update(date_selected=timezone.now())
